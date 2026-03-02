@@ -4,3 +4,5 @@ export const PAGINATION = {
   MAX_PAGE_SIZE: 100,
   MIN_PAGE_SIZE: 1,
 };
+
+export const FREE_WORKFLOW_LIMIT = 3;

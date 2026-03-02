@@ -2,11 +2,13 @@ import { generateSlug } from "random-word-slugs";
 import prisma from "@/lib/db";
 import type { Node, Edge } from "@xyflow/react";
 import { createTRPCRouter, premiumProcedure, protectedProcedure } from "@/trpc/init";
+import { TRPCError } from "@trpc/server";
 import z from "zod";
-import { PAGINATION } from "@/config/constants";
+import { PAGINATION, FREE_WORKFLOW_LIMIT } from "@/config/constants";
 import { NodeType } from "@/generated/prisma";
 import { inngest } from "@/inngest/client";
 import { sendWorkflowExecution } from "@/inngest/utils";
+import { polarClient } from "@/lib/polar";
 
 export const workflowsRouter = createTRPCRouter({
   execute: protectedProcedure
@@ -25,7 +27,32 @@ export const workflowsRouter = createTRPCRouter({
 
       return workflow;
     }),
-  create: premiumProcedure.mutation(({ ctx }) => {
+  create: protectedProcedure.mutation(async ({ ctx }) => {
+    // Check if user has an active subscription
+    let hasSubscription = false;
+    try {
+      const customer = await polarClient.customers.getStateExternal({
+        externalId: ctx.auth.user.id,
+      });
+      hasSubscription = !!(customer.activeSubscriptions && customer.activeSubscriptions.length > 0);
+    } catch {
+      hasSubscription = false;
+    }
+
+    // Free users limited to 3 workflows
+    if (!hasSubscription) {
+      const workflowCount = await prisma.workflow.count({
+        where: { userId: ctx.auth.user.id },
+      });
+
+      if (workflowCount >= FREE_WORKFLOW_LIMIT) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: `Free plan is limited to ${FREE_WORKFLOW_LIMIT} workflows. Upgrade to Pro for unlimited workflows.`,
+        });
+      }
+    }
+
     return prisma.workflow.create({
       data: {
         name: generateSlug(3),
@@ -52,8 +79,8 @@ export const workflowsRouter = createTRPCRouter({
     }),
   update: protectedProcedure
     .input(
-      z.object({ 
-        id: z.string(), 
+      z.object({
+        id: z.string(),
         nodes: z.array(
           z.object({
             id: z.string(),
@@ -177,7 +204,7 @@ export const workflowsRouter = createTRPCRouter({
         prisma.workflow.findMany({
           skip: (page - 1) * pageSize,
           take: pageSize,
-          where: { 
+          where: {
             userId: ctx.auth.user.id,
             name: {
               contains: search,
