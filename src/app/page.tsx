@@ -379,7 +379,8 @@ export default function LandingPage() {
               transition={getTransition(0.2)}
               className="text-lg md:text-2xl text-gray-500 mt-8 mb-12 max-w-3xl mx-auto leading-relaxed font-normal"
             >
-              Flow is the open-source automation platform that connec—zero coding required.ts your favorite tools. Build powerful, multi-step workflows visually in minutes
+              Connect your favorite tools and build powerful workflows visually.
+              No coding required — automate in minutes.
             </motion.p>
 
             <motion.div
@@ -391,7 +392,7 @@ export default function LandingPage() {
             >
               <Link
                 href="/signup"
-                className="cursor-pointer text-white font-medium rounded-2xl transition-all duration-200 bg-gray-900 hover:bg-gray-800 shadow-sm inline-flex h-14 px-8 items-center justify-center text-lg w-full sm:w-auto hover:scale-[1.02]"
+                className="relative cursor-pointer text-white font-semibold rounded-2xl transition-all duration-300 bg-gray-800 shadow-xl shadow-black/30 inline-flex h-14 px-10 items-center justify-center text-lg w-full sm:w-auto hover:scale-[1.03] active:scale-[0.98] overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent before:via-white/15 before:to-transparent before:translate-x-[-200%] hover:before:translate-x-[200%] before:transition-transform before:duration-700"
               >
                 Start building for free
               </Link>
