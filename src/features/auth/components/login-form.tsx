@@ -40,10 +40,8 @@ export function LoginForm() {
   const signInGithub = async () => {
     await authClient.signIn.social({
       provider: "github",
+      callbackURL: "/workflows",
     }, {
-      onSuccess: () => {
-        router.push("/workflows");
-      },
       onError: () => {
         toast.error("Something went wrong");
       },
@@ -53,10 +51,8 @@ export function LoginForm() {
   const signInGoogle = async () => {
     await authClient.signIn.social({
       provider: "google",
+      callbackURL: "/workflows",
     }, {
-      onSuccess: () => {
-        router.push("/workflows");
-      },
       onError: () => {
         toast.error("Something went wrong");
       },
@@ -128,10 +124,10 @@ export function LoginForm() {
                 </FormItem>
               )}
             />
-            
-            <Button 
-              type="submit" 
-              className="w-full h-12 rounded-xl text-base font-medium bg-gradient-to-b from-indigo-500 to-indigo-600 hover:from-indigo-600 hover:to-indigo-700 text-white shadow-[0_4px_14px_rgba(99,102,241,0.4)] hover:shadow-[0_6px_20px_rgba(99,102,241,0.6)] border-0 mt-2 transition-all" 
+
+            <Button
+              type="submit"
+              className="w-full h-12 rounded-xl text-base font-medium bg-gradient-to-b from-indigo-500 to-indigo-600 hover:from-indigo-600 hover:to-indigo-700 text-white shadow-[0_4px_14px_rgba(99,102,241,0.4)] hover:shadow-[0_6px_20px_rgba(99,102,241,0.6)] border-0 mt-2 transition-all"
               disabled={isPending}
             >
               Log in

@@ -24,10 +24,10 @@ const registerSchema = z.object({
   password: z.string().min(1, "Password is required"),
   confirmPassword: z.string(),
 })
-.refine((data) => data.password === data.confirmPassword, {
-  message: "Passwords don't match",
-  path: ["confirmPassword"]
-});
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ["confirmPassword"]
+  });
 
 type RegisterFormValues = z.infer<typeof registerSchema>;
 
@@ -46,10 +46,8 @@ export function RegisterForm() {
   const signInGithub = async () => {
     await authClient.signIn.social({
       provider: "github",
+      callbackURL: "/workflows",
     }, {
-      onSuccess: () => {
-        router.push("/workflows");
-      },
       onError: () => {
         toast.error("Something went wrong");
       },
@@ -59,10 +57,8 @@ export function RegisterForm() {
   const signInGoogle = async () => {
     await authClient.signIn.social({
       provider: "google",
+      callbackURL: "/workflows",
     }, {
-      onSuccess: () => {
-        router.push("/workflows");
-      },
       onError: () => {
         toast.error("Something went wrong");
       },
@@ -158,10 +154,10 @@ export function RegisterForm() {
                 </FormItem>
               )}
             />
-            
-            <Button 
-              type="submit" 
-              className="w-full h-12 rounded-xl text-base font-medium bg-gradient-to-b from-indigo-500 to-indigo-600 hover:from-indigo-600 hover:to-indigo-700 text-white shadow-[0_4px_14px_rgba(99,102,241,0.4)] hover:shadow-[0_6px_20px_rgba(99,102,241,0.6)] border-0 mt-2 transition-all" 
+
+            <Button
+              type="submit"
+              className="w-full h-12 rounded-xl text-base font-medium bg-gradient-to-b from-indigo-500 to-indigo-600 hover:from-indigo-600 hover:to-indigo-700 text-white shadow-[0_4px_14px_rgba(99,102,241,0.4)] hover:shadow-[0_6px_20px_rgba(99,102,241,0.6)] border-0 mt-2 transition-all"
               disabled={isPending}
             >
               Sign up
