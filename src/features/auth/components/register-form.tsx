@@ -9,22 +9,15 @@ import { toast } from "sonner";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
   Form,
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { authClient } from "@/lib/auth-client";
+import { Eye } from "lucide-react";
 
 const registerSchema = z.object({
   email: z.email("Please enter a valid email address"),
@@ -55,7 +48,7 @@ export function RegisterForm() {
       provider: "github",
     }, {
       onSuccess: () => {
-        router.push("/");
+        router.push("/workflows");
       },
       onError: () => {
         toast.error("Something went wrong");
@@ -68,7 +61,7 @@ export function RegisterForm() {
       provider: "google",
     }, {
       onSuccess: () => {
-        router.push("/");
+        router.push("/workflows");
       },
       onError: () => {
         toast.error("Something went wrong");
@@ -82,11 +75,11 @@ export function RegisterForm() {
         name: values.email,
         email: values.email,
         password: values.password,
-        callbackURL: "/",
+        callbackURL: "/workflows",
       },
       {
         onSuccess: () => {
-          router.push("/");
+          router.push("/workflows");
         },
         onError: (ctx) => {
           toast.error(ctx.error.message);
@@ -98,109 +91,126 @@ export function RegisterForm() {
   const isPending = form.formState.isSubmitting;
 
   return (
-    <div className="flex flex-col gap-6">
-      <Card>
-        <CardHeader className="text-center">
-          <CardTitle>
-            Get Started
-          </CardTitle>
-          <CardDescription>
-            Create your account to get started
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
-              <div className="grid gap-6">
-                <div className="flex flex-col gap-4">
-                  <Button
-                    onClick={signInGithub}
-                    variant="outline"
-                    className="w-full"
-                    type="button"
-                    disabled={isPending}
-                  >
-                    <Image alt="GitHub" src="/logos/github.svg" width={20} height={20} />
-                    Continue with GitHub
-                  </Button>
-                  <Button
-                    onClick={signInGoogle}
-                    variant="outline"
-                    className="w-full"
-                    type="button"
-                    disabled={isPending}
-                  >
-                    <Image alt="Google" src="/logos/google.svg" width={20} height={20} />
-                    Continue with Google
-                  </Button>
-                </div>
-                <div className="grid gap-6">
-                  <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Email</FormLabel>
-                        <FormControl>
-                          <Input
-                            type="email"
-                            placeholder="m@example.com"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="password"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Password</FormLabel>
-                        <FormControl>
-                          <Input
-                            type="password"
-                            placeholder="*********"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="confirmPassword"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Confirm Password</FormLabel>
-                        <FormControl>
-                          <Input
-                            type="password"
-                            placeholder="*********"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <Button type="submit" className="w-full" disabled={isPending}>
-                    Sign up
-                  </Button>
-                </div>
-                <div className="text-center text-sm">
-                  Already have an account?{" "}
-                  <Link href="/login" className="underline underline-offset-4">
-                    Login
-                  </Link>
-                </div>
-              </div>
-            </form>
-          </Form>
-        </CardContent>
-      </Card>
+    <div className="w-full flex flex-col items-center">
+      <div className="w-full flex flex-col items-center text-center mb-8">
+        <Link href="/" className="text-gray-500 text-base mb-2 hover:text-gray-800 transition-colors">Flow</Link>
+        <h1 className="text-[26px] font-semibold text-gray-900 mb-2">Create an account</h1>
+        <p className="text-sm text-gray-400 max-w-[280px]">Sign up to start automating your workflows today.</p>
+      </div>
+
+      <div className="w-full">
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4">
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input
+                      type="email"
+                      placeholder="Enter your email"
+                      className="h-12 rounded-xl bg-white border-gray-200 placeholder:text-gray-400 focus-visible:ring-indigo-500 text-sm px-4"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <div className="relative">
+                      <Input
+                        type="password"
+                        placeholder="Enter your password"
+                        className="h-12 rounded-xl bg-white border-gray-200 placeholder:text-gray-400 focus-visible:ring-indigo-500 text-sm px-4 pr-10"
+                        {...field}
+                      />
+                      <Eye className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="confirmPassword"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <div className="relative">
+                      <Input
+                        type="password"
+                        placeholder="Confirm your password"
+                        className="h-12 rounded-xl bg-white border-gray-200 placeholder:text-gray-400 focus-visible:ring-indigo-500 text-sm px-4 pr-10"
+                        {...field}
+                      />
+                      <Eye className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            
+            <Button 
+              type="submit" 
+              className="w-full h-12 rounded-xl text-base font-medium bg-gradient-to-b from-indigo-500 to-indigo-600 hover:from-indigo-600 hover:to-indigo-700 text-white shadow-[0_4px_14px_rgba(99,102,241,0.4)] hover:shadow-[0_6px_20px_rgba(99,102,241,0.6)] border-0 mt-2 transition-all" 
+              disabled={isPending}
+            >
+              Sign up
+            </Button>
+          </form>
+        </Form>
+
+        <div className="relative my-8">
+          <div className="absolute inset-0 flex items-center">
+            <span className="w-full border-t border-gray-200" />
+          </div>
+          <div className="relative flex justify-center text-[10px] font-medium tracking-wider uppercase text-gray-400">
+            <span className="bg-[#fcfcfc] px-4">
+              Or authorize with
+            </span>
+          </div>
+        </div>
+
+        <div className="flex gap-4 w-full">
+          <Button
+            onClick={signInGithub}
+            variant="outline"
+            className="flex-1 h-12 rounded-xl bg-white border-gray-200 hover:bg-gray-50 text-gray-700 text-sm font-semibold shadow-sm transition-all flex items-center justify-center gap-2"
+            type="button"
+            disabled={isPending}
+          >
+            <Image alt="GitHub" src="/logos/github.svg" width={18} height={18} />
+            GitHub
+          </Button>
+
+          <Button
+            onClick={signInGoogle}
+            variant="outline"
+            className="flex-1 h-12 rounded-xl bg-white border-gray-200 hover:bg-gray-50 text-gray-700 text-sm font-semibold shadow-sm transition-all flex items-center justify-center gap-2"
+            type="button"
+            disabled={isPending}
+          >
+            <Image alt="Google" src="/logos/google.svg" width={18} height={18} />
+            Google
+          </Button>
+        </div>
+
+        <div className="text-center text-sm text-gray-400 mt-8">
+          Already have an account?{" "}
+          <Link href="/login" className="text-gray-900 font-semibold hover:underline">
+            Log in
+          </Link>
+        </div>
+      </div>
     </div>
   );
-};
+}

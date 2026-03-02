@@ -1,36 +1,77 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Flow 🌊
 
-## Getting Started
+Flow is a powerful, open-source workflow automation platform (inspired by n8n) built to connect your favorite apps and APIs. Build complex automation flows visually with an intuitive drag-and-drop interface.
 
-First, run the development server:
+## 🌟 Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Visual Workflow Builder:** Drag-and-drop interface to build complex automation workflows easily.
+- **Ready-to-use Nodes:**
+  - **Triggers:** Manual Trigger, Google Form Trigger, Stripe Trigger.
+  - **AI Integrations:** OpenAI, Anthropic, Gemini.
+  - **Communication:** Discord, Slack.
+  - **Utilities:** HTTP Request.
+- **Reliable Background Execution:** Powered by Inngest for robust, serverless background job processing.
+- **Secure Authentication:** Built-in authentication using Better Auth (supports Google & GitHub OAuth).
+- **Monetization Ready:** Integrated with Polar.sh for subscriptions and payments.
+- **Real-time Monitoring:** Error tracking and performance monitoring with Sentry.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠 Tech Stack
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Framework:** [Next.js 15](https://nextjs.org/) (App Router)
+- **Language:** TypeScript
+- **Database:** PostgreSQL with [Prisma ORM](https://www.prisma.io/)
+- **Styling:** Tailwind CSS & [shadcn/ui](https://ui.shadcn.com/) (Radix UI)
+- **Flow Builder:** [React Flow](https://reactflow.dev/) (`@xyflow/react`)
+- **Background Jobs:** [Inngest](https://www.inngest.com/)
+- **Authentication:** [Better Auth](https://better-auth.com/)
+- **Payments:** [Polar.sh](https://polar.sh/)
+- **Monitoring:** [Sentry](https://sentry.io/)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🚀 Getting Started
 
-## Learn More
+### Prerequisites
 
-To learn more about Next.js, take a look at the following resources:
+- Node.js (v20+)
+- PostgreSQL database
+- Inngest CLI (for local background job execution)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Installation
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. Clone the repository and navigate into it:
+   ```bash
+   # Clone your repository here
+   cd flow
+   ```
 
-## Deploy on Vercel
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+3. Configure Environment Variables:
+   Copy the example environment file and fill in your details:
+   ```bash
+   cp .env.example .env
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+   Key required variables:
+   - `DATABASE_URL`: Your PostgreSQL connection string
+   - `ENCRYPTION_KEY`: Run `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"` to generate
+   - `BETTER_AUTH_SECRET`: Run `npx auth secret` to generate
+
+4. Setup Database:
+   ```bash
+   npx prisma db push
+   ```
+
+5. Start the Development Environment:
+   The project uses `mprocs` to run Next.js, Inngest, and ngrok concurrently.
+   ```bash
+   npm run dev:all
+   ```
+   Or run the Next.js dev server standalone:
+   ```bash
+   npm run dev
+   ```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the app.
