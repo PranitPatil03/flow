@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { BentoCard, BentoGrid } from "@/components/ui/bento-grid";
 import { Marquee } from "@/components/ui/marquee";
 import { cn } from "@/lib/utils";
-import { motion } from "framer-motion";
+import { motion, type Transition } from "framer-motion";
 import {
   Activity,
   AlertTriangle,
@@ -37,7 +37,7 @@ const fadeInUpVariant = {
   animate: { opacity: 1, y: 0 },
 };
 
-const getTransition = (delay: number = 0) => ({
+const getTransition = (delay: number = 0): Transition => ({
   duration: 0.5,
   ease: "easeOut",
   delay,
@@ -192,8 +192,8 @@ const bentoFeatures = [
       <div className="absolute right-0 top-0 h-[300px] w-full border-none transition-all duration-300 ease-out [mask-image:linear-gradient(to_top,transparent_10%,#000_100%)] group-hover:scale-105">
         <div className="absolute inset-0 flex justify-center items-center">
           <div className="relative w-full h-full max-w-[280px]">
-             {/* Document Mockup */}
-             <motion.div
+            {/* Document Mockup */}
+            <motion.div
               className="absolute top-8 left-4 w-[160px] bg-white border border-gray-200 rounded-lg p-3 shadow-sm z-10"
               initial={{ y: 0 }}
               animate={{ y: [-2, 2, -2] }}
@@ -208,7 +208,7 @@ const bentoFeatures = [
                 <div className="h-1.5 w-4/5 bg-indigo-100 rounded-full" />
               </div>
 
-               <div className="relative p-1.5 rounded bg-indigo-50 border border-indigo-100 mb-3">
+              <div className="relative p-1.5 rounded bg-indigo-50 border border-indigo-100 mb-3">
                 <div className="h-1.5 w-full bg-indigo-300/50 rounded-full mb-1.5" />
                 <div className="h-1.5 w-2/3 bg-indigo-300/50 rounded-full" />
               </div>
@@ -258,8 +258,8 @@ const bentoFeatures = [
       <div className="absolute right-0 top-4 h-[300px] w-full border-none transition-all duration-300 ease-out [mask-image:linear-gradient(to_top,transparent_10%,#000_100%)] group-hover:scale-105">
         <div className="absolute inset-0 flex justify-center items-start pt-8">
           <div className="w-[85%] rounded-xl bg-transparent p-4">
-             {/* Top Metrics Row */}
-             <div className="flex justify-between items-center mb-6">
+            {/* Top Metrics Row */}
+            <div className="flex justify-between items-center mb-6">
               <div className="flex flex-col">
                 <span className="text-[10px] text-gray-500 font-medium">Total Workflows Run</span>
                 <div className="flex items-center gap-2">
@@ -424,7 +424,7 @@ export default function LandingPage() {
         {/* PRICING identical to Clyra structure but stripped back for Flow */}
         <section id="pricing" className="w-full py-24 bg-white">
           <div className="container max-w-5xl mx-auto px-4">
-             <div className="text-center mb-16">
+            <div className="text-center mb-16">
               <h2 className="text-4xl md:text-5xl font-light tracking-tight text-gray-900 mb-4">
                 Transparent Pricing
               </h2>
@@ -440,41 +440,41 @@ export default function LandingPage() {
                 <p className="text-gray-500 mb-6">For personal projects.</p>
                 <div className="text-5xl font-light mb-8 text-gray-900">$0<span className="text-lg text-gray-400">/mo</span></div>
                 <ul className="space-y-4 mb-8 flex-1">
-                   {[
-                     "100 workflow executions",
-                     "3 active workflows",
-                     "Community support",
-                     "Basic integrations"
-                   ].map(item => (
+                  {[
+                    "100 workflow executions",
+                    "3 active workflows",
+                    "Community support",
+                    "Basic integrations"
+                  ].map(item => (
                     <li key={item} className="flex gap-3 text-gray-600"><CheckCircle className="w-5 h-5 text-indigo-500" />{item}</li>
-                   ))}
+                  ))}
                 </ul>
                 <Button className="w-full h-12 text-base" variant="outline" asChild>
                   <Link href="/signup">Get Started</Link>
                 </Button>
               </div>
 
-               {/* Pro */}
+              {/* Pro */}
               <div className="border border-indigo-200 rounded-3xl p-8 bg-indigo-50/50 relative shadow-md flex flex-col">
                 <div className="absolute top-0 right-6 transform -translate-y-1/2 bg-indigo-500 text-white text-xs font-bold px-3 py-1 rounded-full">POPULAR</div>
                 <h3 className="text-2xl font-semibold mb-2 text-gray-900">Professional</h3>
                 <p className="text-gray-500 mb-6">For teams doing critical syncs.</p>
                 <div className="text-5xl font-light mb-8 text-gray-900">$49<span className="text-lg text-gray-400">/mo</span></div>
                 <ul className="space-y-4 mb-8 flex-1">
-                   {[
-                     "150,000 executions",
-                     "Unlimited active workflows",
-                     "Premium AI Integrations",
-                     "Custom API webhooks",
-                     "Advanced logic & branching",
-                     "Priority support & SLAs"
-                   ].map(item => (
+                  {[
+                    "150,000 executions",
+                    "Unlimited active workflows",
+                    "Premium AI Integrations",
+                    "Custom API webhooks",
+                    "Advanced logic & branching",
+                    "Priority support & SLAs"
+                  ].map(item => (
                     <li key={item} className="flex gap-3 text-gray-600"><CheckCircle className="w-5 h-5 text-indigo-500" />{item}</li>
-                   ))}
+                  ))}
                 </ul>
-                 <Button className="w-full h-12 text-base bg-indigo-600 hover:bg-indigo-700 text-white border-0 shadow-sm" asChild>
-                    <Link href="https://buy.stripe.com/" target="_blank">Upgrade to Pro</Link>
-                 </Button>
+                <Button className="w-full h-12 text-base bg-indigo-600 hover:bg-indigo-700 text-white border-0 shadow-sm" asChild>
+                  <Link href="https://buy.stripe.com/" target="_blank">Upgrade to Pro</Link>
+                </Button>
               </div>
             </div>
           </div>
